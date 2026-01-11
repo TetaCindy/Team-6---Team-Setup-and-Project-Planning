@@ -1,0 +1,19 @@
+# XML Processing
+lxml==5.1.0
+
+# Date Handling
+python-dateutil==2.8.2
+
+# Database
+# sqlite3 is built into Python
+
+# Optional: API Framework
+fastapi==0.109.0
+uvicorn==0.27.0
+pydantic==2.5.3
+
+# Optional: Data Processing
+pandas==2.2.0
+
+# Testing
+pytest==8.0.0
