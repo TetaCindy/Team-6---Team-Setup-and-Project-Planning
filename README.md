@@ -13,7 +13,7 @@ Enterprise-level fullstack application for processing, analyzing, and visualizin
 [Architecture diagram will be added here by Member 2]
 
 ##  Scrum Board
-[Project board link will be added here by Member 3]
+[[Project board link](https://trello.com/b/6kerVEZJ)]
 
 ##  Project Structure
 ```
@@ -47,7 +47,7 @@ Enterprise-level fullstack application for processing, analyzing, and visualizin
 *(Will be updated in future phases)*
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR-USERNAME/momo-analytics-platform.git
+git clone https://github.com/dumethode/momo-analytics-platform.git
 
 # Navigate to project directory
 cd momo-analytics-platform
