@@ -79,6 +79,11 @@ pytest tests/
 # Run specific test file
 pytest tests/test_parse_xml.py
 ```
+##  System Architecture Link:
+[System Architecture Diagram](https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/System%20Architecture%20diagram.png)
+
+
+
 
 
 ---
