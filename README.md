@@ -82,6 +82,25 @@ pytest tests/test_parse_xml.py
 ##  System Architecture Link:
 [System Architecture Diagram](https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/System%20Architecture%20diagram.png)
 
+### Architecture Overview
+
+The MoMo Transaction Analyzer follows a **5-layer architecture**:
+
+1. **Data Source Layer** (XML) - Raw transaction data input
+2. **ETL Pipeline Layer** (Python) - Data processing in 4 stages:
+   - Parse XML
+   - Clean & Normalize
+   - Categorize Transactions
+   - Load to Database
+3. **Data Storage Layer** (SQLite) - Persistent storage
+4. **API Layer** (FastAPI - Optional) - RESTful data access
+5. **Presentation Layer** (Web Dashboard) - User interface
+
+**Data Flow:** XML → ETL Processing → Database → API/JSON → Frontend Dashboard
+
+
+---
+
 
 
 
