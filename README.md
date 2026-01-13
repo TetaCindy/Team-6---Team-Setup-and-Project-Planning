@@ -2,9 +2,9 @@
 
 ## Team Members
 1. CINDY Saro Teta - Repository & DevOps Lead
-2. **[Member 2 Name]** - Architecture & Documentation Lead
+2. Sylivie Tumukunde - Architecture & Documentation Lead
 3. Methode Duhujubumwe - Scrum Master & Project Manager
-4. **[Member 4 Name]** - Technical Research & Planning Lead
+4. Mutoni Keira - Technical Research & Planning Lead
 
 ##  Project Description
 Enterprise-level fullstack application for processing, analyzing, and visualizing MoMo (Mobile Money) SMS transaction data. The system features an ETL pipeline, SQLite database storage, and an interactive web dashboard for data insights.
