@@ -10,7 +10,7 @@
 Enterprise-level fullstack application for processing, analyzing, and visualizing MoMo (Mobile Money) SMS transaction data. The system features an ETL pipeline, SQLite database storage, and an interactive web dashboard for data insights.
 
 ##  System Architecture
-[Architecture diagram will be added here by Member 2]
+https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/System%20Architecture%20diagram.png)
 
 ##  Scrum Board
 [[Project board link](https://trello.com/b/6kerVEZJ)]
