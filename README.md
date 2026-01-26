@@ -18,30 +18,28 @@ https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/
 ##  Project Structure
 ```
 .
+.
 ├── README.md
 ├── .env.example
 ├── requirements.txt
 ├── index.html
+├── database/                   # Week 2: SQL Implementation
+│   └── database_setup.sql      # Schema, Constraints, and DDL
+├── docs/                       # Week 2: Documentation
+│   └── erd_diagram.png         # Entity Relationship Diagram
+├── examples/                   # Week 2: JSON Modeling
+│   ├── transaction_categories.json
+│   └── json_schemas.json
 ├── web/
 │   ├── styles.css
-│   ├── chart_handler.js
-│   └── assets/
+│   └── chart_handler.js
 ├── data/
 │   ├── raw/
-│   ├── processed/
-│   ├── db.sqlite3
-│   └── logs/
+│   └── processed/
 ├── etl/
-│   ├── config.py
 │   ├── parse_xml.py
-│   ├── clean_normalize.py
-│   ├── categorize.py
-│   ├── load_db.py
-│   └── run.py
-├── api/ 
-├── scripts/
+│   └── load_db.py
 └── tests/
-```
 
 ##  Setup Instructions
 *(Will be updated in future phases)*
