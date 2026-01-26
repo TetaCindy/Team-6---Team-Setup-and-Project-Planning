@@ -1,0 +1,27 @@
+[
+  {
+    "Category_id": 1,
+    "Name": "Deposit",
+    "Description": "Deposited money into account"
+  },
+  {
+    "Category_id": 2,
+    "Name": "Payment",
+    "Description": "Payment made to merchant"
+  },
+  {
+    "Category_id": 3,
+    "Name": "Transfer",
+    "Description": "Money transferred between accounts"
+  },
+  {
+    "Category_id": 4,
+    "Name": "Airtime",
+    "Description": "Airtime purchase"
+  },
+  {
+    "Category_id": 5,
+    "Name": "Other",
+    "Description": "Miscellaneous transactions"
+  }
+]
