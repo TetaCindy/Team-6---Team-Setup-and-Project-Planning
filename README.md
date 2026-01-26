@@ -106,4 +106,3 @@ The MoMo Transaction Analyzer follows a **5-layer architecture**:
 
 
 ---
-This is a collaborative project for Enterprise Application Development - ALU
