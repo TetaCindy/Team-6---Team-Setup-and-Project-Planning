@@ -15,6 +15,10 @@ https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/
 ##  Scrum Board
 [[Project board link](https://trello.com/b/6kerVEZJ)]
 
+## Tean Participation Sheet
+[[Tean Participation Sheet](https://docs.google.com/spreadsheets/d/1yB8mh1U3vzHcHDPnDFGUAXl1nHhIx0UPYm2Lo0quDeE/edit?gid=0#gid=0)]
+
+
 ##  Project Structure
 ```
 .
