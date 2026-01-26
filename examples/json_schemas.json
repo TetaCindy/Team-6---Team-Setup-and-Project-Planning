@@ -1,0 +1,95 @@
+{
+  "User": [
+    {
+      "id": 1,
+      "name": "Innocent Nkurunziza",
+      "phone_number": "250791233547",
+      "created_at": "2024-05-10T16:30:51Z"
+    },
+    {
+      "id": 2,
+      "name": "Ishimwe Diane",
+      "phone_number": "250790777734",
+      "created_at": "2024-05-10T16:31:39Z"
+    }
+  ],
+  "Transaction_Categories": [
+    {
+      "category_id": 1,
+      "name": "Deposit",
+      "description": "Deposited money into account"
+    },
+    {
+      "category_id": 2,
+      "name": "Payment",
+      "description": "Payment made to merchant"
+    }
+  ],
+  "Transactions": [
+    {
+      "transaction_id": 1,
+      "sender_id": 1,
+      "receiver_id": 2,
+      "category_id": 2,
+      "TxId": "76662021700",
+      "amount": 2000.00,
+      "fee": 0.00,
+      "balance": 2000.00,
+      "time": "2024-05-10T16:30:51Z",
+      "sms_body": "You have received 2000 RWF from..."
+    }
+  ],
+  "Transaction_Users": [
+    {
+      "transaction_id": 1,
+      "user_id": 1,
+      "role": "sender"
+    },
+    {
+      "transaction_id": 1,
+      "user_id": 2,
+      "role": "receiver"
+    }
+  ],
+  "System_Logs": [
+    {
+      "log_id": 1,
+      "transaction_id": 1,
+      "log_type": "info",
+      "message": "Transaction processed successfully",
+      "created_at": "2024-05-10T16:30:51Z"
+    }
+  ],
+  "transaction_full_example": {
+    "transaction_id": 1,
+    "TxId": "76662021700",
+    "amount": 2000.00,
+    "fee": 0.00,
+    "balance": 2000.00,
+    "time": "2024-05-10T16:30:51Z",
+    "sms_body": "You have received 2000 RWF...",
+    "sender": {
+      "id": 1,
+      "name": "Innocent Nkurunziza",
+      "phone_number": "250791233547"
+    },
+    "receiver": {
+      "id": 2,
+      "name": "Ishimwe Diane",
+      "phone_number": "250790777734"
+    },
+    "category": {
+      "category_id": 2,
+      "name": "Payment",
+      "description": "Payment made to merchant"
+    },
+    "logs": [
+      {
+        "log_id": 1,
+        "log_type": "info",
+        "message": "Transaction processed successfully",
+        "created_at": "2024-05-10T16:30:51Z"
+      }
+    ]
+  }
+}
