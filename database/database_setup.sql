@@ -1,111 +1,116 @@
-/* Creating a database */
-CREATE DATABASE IF NOT EXISTS x_database;
+/* Team 6 - MoMo SMS Data Analytics Platform
+    Database Setup Script (Week 2)
+*/
 
-/* Moving inside the newely created database by USE keyword/command */
-USE x_database;
+CREATE DATABASE IF NOT EXISTS momo_analytics_db;
+USE momo_analytics_db;
 
-/* TABLES CREATION */
-
-/* Creating table called "Users" to store the names of sender and reciver gotten from the body */
-CREATE TABLE Users (
-    Id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'id given to each user for identification', 
-    Name VARCHAR(30) NOT NULL COMMENT 'Column to keep users name',
-    Tel VARCHAR(25) NULL UNIQUE COMMENT 'Users telephone number',
-    Created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Accoun creation date'
-  
+-- 1. Table for unique participants (Team Members and XML contacts)
+CREATE TABLE Account_Holders (
+    holder_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(60) NOT NULL,
+    contact_number VARCHAR(20) NULL UNIQUE,
+    registered_on DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-/* Creating table called "Transaction_categories" */
-CREATE TABLE Transaction_categories (
-    Category_id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique category identifier',
-    Name VARCHAR(200) NOT NULL COMMENT 'Category name',
-    Description VARCHAR(200) COMMENT 'Category description'
-
+-- 2. Table for classifying MoMo transaction types
+CREATE TABLE Service_Categories (
+    service_id INT AUTO_INCREMENT PRIMARY KEY,
+    service_name VARCHAR(150) NOT NULL UNIQUE,
+    service_desc VARCHAR(255)
 );
 
-
-/* Creating table called "Transactions" to store all the transactions */
-CREATE TABLE Transactions (
-    Transaction_id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique transaction identifier',
-    Sender_id INT NOT NULL COMMENT 'Foreign Key to Users - sender',
-    Receiver_id INT COMMENT 'Foreign Key to Users - receiver',
-    Category_id INT NOT NULL COMMENT 'Forign Key to Transaction_Categories',
-    TxId VARCHAR(250) NOT NULL UNIQUE COMMENT 'Financial Transaction Id from SMS',
-    Amount DECIMAL(10,2) NOT NULL CHECK (amount >= 0) COMMENT 'Transaction amount',
-    Fee DECIMAL(10,2) DEFAULT 0 CHECK (fee >= 0) COMMENT 'Transaction fee charged',
-    Balance DECIMAL(10,2) CHECK (balance >= 0) COMMENT 'Balance after transaction',
-    Time DATETIME NOT NULL COMMENT 'Transaction timestamp',
-    SMS_body TEXT COMMENT 'Original SMS body',
-    CONSTRAINT fk_sender FOREIGN KEY (sender_id) REFERENCES Users(id),
-    CONSTRAINT fk_receiver FOREIGN KEY (receiver_id) REFERENCES Users(id),
-    CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES Transaction_categories(category_id)
-
+-- 3. Main table for transaction records derived from modified_sms_v2.xml
+CREATE TABLE Financial_Logs (
+    log_entry_id INT AUTO_INCREMENT PRIMARY KEY,
+    initiator_id INT NOT NULL,
+    recipient_id INT,
+    service_type_id INT NOT NULL,
+    external_tx_id VARCHAR(250) NOT NULL UNIQUE,
+    trans_amount DECIMAL(10,2) NOT NULL CHECK (trans_amount >= 0),
+    trans_fee DECIMAL(10,2) DEFAULT 0.00 CHECK (trans_fee >= 0),
+    remaining_balance DECIMAL(10,2) CHECK (remaining_balance >= 0),
+    occurred_at DATETIME NOT NULL,
+    raw_content TEXT,
+    CONSTRAINT fk_initiator FOREIGN KEY (initiator_id) REFERENCES Account_Holders(holder_id),
+    CONSTRAINT fk_recipient FOREIGN KEY (recipient_id) REFERENCES Account_Holders(holder_id),
+    CONSTRAINT fk_service FOREIGN KEY (service_type_id) REFERENCES Service_Categories(service_id)
 );
 
-/* Indexes for faster lookups */
-CREATE INDEX idx_tx_time ON Transactions(time);
-CREATE INDEX idx_tx_sender ON Transactions(sender_id);
-
-
-/* Creating table called "Users_Transaction" */
-CREATE TABLE Users_transaction (
-    Transaction_id INT NOT NULL COMMENT 'Foreign Key to transaction',
-    User_id INT NOT NULL COMMENT 'Foreign Key to user',
-    Role VARCHAR(20) NOT NULL COMMENT 'Role of user in transaction (sender/receiver/agent)',
-    PRIMARY KEY (transaction_id, user_id),
-    CONSTRAINT fk_tu_tx FOREIGN KEY (transaction_id) REFERENCES Transactions(transaction_id),
-    CONSTRAINT fk_tu_user FOREIGN KEY (user_id) REFERENCES Users(id)
+-- 4. Junction table for M:N relationship resolution
+CREATE TABLE Participant_Roles (
+    entry_id INT NOT NULL,
+    holder_id INT NOT NULL,
+    assignment VARCHAR(25) NOT NULL,
+    PRIMARY KEY (entry_id, holder_id),
+    CONSTRAINT fk_role_log FOREIGN KEY (entry_id) REFERENCES Financial_Logs(log_entry_id),
+    CONSTRAINT fk_role_holder FOREIGN KEY (holder_id) REFERENCES Account_Holders(holder_id)
 );
 
-/* Creating table called "System_logs" */
-CREATE TABLE System_logs (
-    Log_id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique log identifier',
-    Transaction_id INT NOT NULL COMMENT 'FK to Transactions',
-    Log_type VARCHAR(250) NOT NULL COMMENT 'Type of log entry (info/error/warning)',
-    Message TEXT COMMENT 'Log details',
-    Created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Log creation timestamp',
-    CONSTRAINT fk_log_tx FOREIGN KEY (transaction_id) REFERENCES Transactions(transaction_id)
+-- 5. Table for ETL auditing
+CREATE TABLE Operational_Audit (
+    audit_id INT AUTO_INCREMENT PRIMARY KEY,
+    related_entry_id INT NOT NULL,
+    status_level VARCHAR(50) NOT NULL,
+    audit_msg TEXT,
+    captured_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_audit_log FOREIGN KEY (related_entry_id) REFERENCES Financial_Logs(log_entry_id)
 );
 
+CREATE INDEX idx_occurred_at ON Financial_Logs(occurred_at);
 
-/* SAMPLE TESTS */
+-- =======================================================
+-- INITIAL DATA SEEDING
+-- =======================================================
 
-/* Inserting into table "Users" */
-INSERT INTO Users (Name, Tel) VALUES
-('MUTONI Keira', '+44 345 344 22'),
-('Sylivie TUMUKUNDE', '+44 345 344 45'),
-('Cindy Saro Teta', '+44 345 345 345 23'),
-('Methode Duhujubumwe', '+44 345 980 89'),
-('Tosin Aderabioyo', NULL);
+INSERT INTO Account_Holders (full_name, contact_number) VALUES
+('Cindy Saro Teta', '250780000001'),
+('Methode Duhujubumwe', '250780000002'),
+('Mutoni Keira', '250780000003'),
+('Sylivie Tumukunde', '250780000004'),
+('Jane Smith', '*********013'),
+('Robert Brown', '60033');
 
-/* Inserting into table "Transaction_categories" */
-INSERT INTO Transaction_categories (name, description) VALUES
-('Deposit', 'Deposited money into account'),
-('Payment', 'Payment made to merchant'),
-('Transfer', 'Money transferred between accounts'),
-('Airtime', 'Airtime purchase'),
-('Other', 'Miscellaneous transactions');
+INSERT INTO Service_Categories (service_name, service_desc) VALUES
+('Received', 'Funds received into account'),
+('Payment', 'Outward payment for services/goods'),
+('Transfer', 'Peer-to-peer money transfer'),
+('Deposit', 'Cash inflow from bank or agent');
 
-/* Inserting into table "Transactions" */
-INSERT INTO Transactions (Sender_id, Receiver_id, Category_id, TxId, Amount, Fee, Balance, Time, SMS_body) VALUES
-(1, 1, 2, '67662021700', 2000000.00, 0.00, 2000000.00, '2025-05-10 16:30:51', 'You have received 2,000,000 RWF...'),
-(1, 2, 2, '43214484437', 1000.00, 0.00, 1000.00, '2025-05-10 16:31:39', 'Your payment of 1,000 RWF...'),
-(1, 4, 2, '53732411227', 600.00, 0.00, 400.00, '2025-05-10 21:32:32', 'Your payment of 600 RWF...'),
-(4, 1, 1, '67818959211', 400000.00, 0.00, 404000.00, '2025-05-11 18:43:49', 'A bank deposit of 400,000 RWF...'),
-(1, 3, 3, '34113964658', 3500.00, 0.00, 10880.00, '2025-05-12 13:34:25', 'Your payment of 3,500 RWF...');
+-- Data mapped from modified_sms_v2.xml
+INSERT INTO Financial_Logs (initiator_id, recipient_id, service_type_id, external_tx_id, trans_amount, trans_fee, remaining_balance, occurred_at, raw_content) VALUES
+(5, 1, 1, '76662021700', 2000.00, 0.00, 2000.00, '2024-05-10 16:30:51', 'You have received 2000 RWF from Jane Smith...'),
+(1, 5, 2, '73214484437', 1000.00, 0.00, 1000.00, '2024-05-10 16:31:39', 'Your payment of 1,000 RWF to Jane Smith...'),
+(2, 6, 2, '26811810649', 27000.00, 0.00, 31300.00, '2025-01-15 20:26:12', 'Your payment of 27,000 RWF to Robert Brown 60033...');
 
-/* Inserting into table "Users_transaction" */
-INSERT INTO Users_transaction (Transaction_id, User_id, Role) VALUES
-(1, 1, 'sender'),
-(1, 2, 'receiver'),
+INSERT INTO Participant_Roles (entry_id, holder_id, assignment) VALUES
+(1, 5, 'sender'),
+(1, 1, 'receiver'),
 (2, 1, 'sender'),
-(2, 2, 'receiver'),
-(3, 1, 'receiver');
+(2, 5, 'receiver'),
+(3, 2, 'sender');
 
-/* Inserting into table "System_logs" */
-INSERT INTO System_logs (Transaction_id, Log_type, Message) VALUES
-(1, 'info', 'Transaction processed successfully'),
-(2, 'info', 'Transaction processed successfully'),
-(3, 'warning', 'Balance low after transaction'),
-(4, 'info', 'Deposit recorded'),
-(5, 'error', 'Delayed confirmation message');
+INSERT INTO Operational_Audit (related_entry_id, status_level, audit_msg) VALUES
+(1, 'info', 'P2P Receive successfully parsed'),
+(3, 'info', 'Payment verified from XML');
+
+-- ==============================================================
+-- VALIDATION QUERIES
+-- ==============================================================
+
+-- READ: Detailed Report
+SELECT 
+    f.external_tx_id AS 'TX_ID', 
+    a.full_name AS 'Initiator', 
+    s.service_name AS 'Type', 
+    f.trans_amount AS 'Amount', 
+    f.occurred_at AS 'Timestamp'
+FROM Financial_Logs f
+JOIN Account_Holders a ON f.initiator_id = a.holder_id
+JOIN Service_Categories s ON f.service_type_id = s.service_id;
+
+-- UPDATE: Member Contact
+UPDATE Account_Holders SET contact_number = '250799999999' WHERE full_name = 'Mutoni Keira';
+
+-- DELETE: Cleanup Audit
+DELETE FROM Operational_Audit WHERE audit_id = 2;
