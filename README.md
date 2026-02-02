@@ -15,33 +15,35 @@ https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/
 ##  Scrum Board
 [[Project board link](https://trello.com/b/6kerVEZJ)]
 
+## Tean Participation Sheet
+[[Tean Participation Sheet](https://docs.google.com/spreadsheets/d/1yB8mh1U3vzHcHDPnDFGUAXl1nHhIx0UPYm2Lo0quDeE/edit?gid=0#gid=0)]
+
+
 ##  Project Structure
 ```
+.
 .
 ├── README.md
 ├── .env.example
 ├── requirements.txt
 ├── index.html
+├── database/                   # Week 2: SQL Implementation
+│   └── database_setup.sql      # Schema, Constraints, and DDL
+├── docs/                       # Week 2: Documentation
+│   └── erd_diagram.png         # Entity Relationship Diagram
+├── examples/                   # Week 2: JSON Modeling
+│   ├── transaction_categories.json
+│   └── json_schemas.json
 ├── web/
 │   ├── styles.css
-│   ├── chart_handler.js
-│   └── assets/
+│   └── chart_handler.js
 ├── data/
 │   ├── raw/
-│   ├── processed/
-│   ├── db.sqlite3
-│   └── logs/
+│   └── processed/
 ├── etl/
-│   ├── config.py
 │   ├── parse_xml.py
-│   ├── clean_normalize.py
-│   ├── categorize.py
-│   ├── load_db.py
-│   └── run.py
-├── api/ 
-├── scripts/
+│   └── load_db.py
 └── tests/
-```
 
 ##  Setup Instructions
 *(Will be updated in future phases)*
@@ -106,4 +108,3 @@ The MoMo Transaction Analyzer follows a **5-layer architecture**:
 
 
 ---
-This is a collaborative project for Enterprise Application Development - ALU
