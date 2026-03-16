@@ -54,11 +54,6 @@ git clone https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning
 # Navigate to project directory
 cd Team-6---Team-Setup-and-Project-Planning
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy environment variables
-cp .env.example .env
 ```
 
 ##  Development Workflow
