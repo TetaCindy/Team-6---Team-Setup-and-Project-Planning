@@ -44,15 +44,15 @@ https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/
 │   ├── parse_xml.py
 │   └── load_db.py
 └── tests/
-
+```
 ##  Setup Instructions
 *(Will be updated in future phases)*
 ```bash
 # Clone the repository
-git clone https://github.com/dumethode/momo-analytics-platform.git
+git clone https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning
 
 # Navigate to project directory
-cd momo-analytics-platform
+cd Team-6---Team-Setup-and-Project-Planning
 
 # Install dependencies
 pip install -r requirements.txt
@@ -64,23 +64,15 @@ cp .env.example .env
 ##  Development Workflow
 ```bash
 # Run ETL pipeline
-bash scripts/run_etl.sh
+python dsa/parse_to_json.py
+# data will be saved in data/ folder as transactions.json
 
-# Export dashboard data
-bash scripts/export_json.sh
+# Perform CRUD operations with plain python codes and run it
+python app.py
 
-# Serve frontend
-bash scripts/serve_frontend.sh
 ```
 
-##  Testing
-```bash
-# Run all tests
-pytest tests/
 
-# Run specific test file
-pytest tests/test_parse_xml.py
-```
 ##  System Architecture Link:
 [System Architecture Diagram](https://github.com/TetaCindy/Team-6---Team-Setup-and-Project-Planning/blob/main/System%20Architecture%20diagram.png)
 
